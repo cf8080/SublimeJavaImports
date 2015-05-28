@@ -12,7 +12,10 @@ def get_classes_list(path):
 		classesList = []
 		for root, dirs, files in os.walk(path):
 			for filename in files:
-				classesList.append((root+"/"+filename)[len(path):])
+                                if filename.endswith(".zip") or filename.endswith(".jar"):
+                                        classesList = classesList + get_classes_list(os.path.join(root,filename))
+                                else:
+                                        classesList.append((root+"/"+filename)[len(path):])
 		return classesList
 
 class JavaAddImportCommand(sublime_plugin.TextCommand):
